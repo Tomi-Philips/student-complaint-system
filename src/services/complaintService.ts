@@ -1,11 +1,24 @@
 import { supabase } from "@/lib/supabaseClient";
 import { Complaint, ComplaintStatus } from "@/types/complaint";
-import { classifyComplaint } from "@/lib/classifier";
+import type { ComplaintCategory } from "@/lib/categories";
 
 export const complaintService = {
   async createComplaint(userId: string, title: string, description: string) {
-    // 1. AI Classification
-    const category = await classifyComplaint(description);
+    // 1. AI Classification (via API route — keeps the AI key server-side)
+    let category: ComplaintCategory = "others";
+    try {
+      const res = await fetch("/api/classify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ description }),
+      });
+      const data = await res.json();
+      if (res.ok && data?.category) {
+        category = data.category as ComplaintCategory;
+      }
+    } catch (err) {
+      console.warn("AI classification unavailable, defaulting to 'others':", err);
+    }
 
     // 2. Save to Database
     const { data, error } = await supabase

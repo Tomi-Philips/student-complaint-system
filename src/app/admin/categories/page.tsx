@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
-import { CANDIDATE_LABELS } from "@/lib/classifier";
+import { CANDIDATE_LABELS, ComplaintCategory } from "@/lib/categories";
 import { complaintService } from "@/services/complaintService";
 
 export default function AdminCategoriesPage() {
@@ -14,11 +14,19 @@ export default function AdminCategoriesPage() {
     async function loadStats() {
       try {
         const complaints = await complaintService.getAllComplaints();
-        const counts: Record<string, number> = {};
+        const counts: Record<ComplaintCategory, number> = {
+          academic: 0,
+          hostel: 0,
+          fees: 0,
+          staff: 0,
+          technical: 0,
+          others: 0,
+        };
         CANDIDATE_LABELS.forEach(label => counts[label] = 0);
         complaints.forEach(c => {
-          if (counts[c.category] !== undefined) counts[c.category]++;
-          else counts['others'] = (counts['others'] || 0) + 1;
+          const cat = c.category as ComplaintCategory;
+          if (counts[cat] !== undefined) counts[cat]++;
+          else counts['others']++;
         });
         setStats(counts);
         setTotalComplaints(complaints.length);

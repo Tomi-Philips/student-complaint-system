@@ -1,4 +1,4 @@
-import { ComplaintCategory } from "@/lib/classifier";
+import { ComplaintCategory } from "@/lib/categories";
 
 export type ComplaintStatus = 'pending' | 'in_progress' | 'reviewing' | 'review' | 'resolved' | 'rejected';
 

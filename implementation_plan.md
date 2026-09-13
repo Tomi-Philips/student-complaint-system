@@ -2,7 +2,7 @@
 
 Welcome! I'm thrilled to be your personal guide on this journey. We are going to build this project together step-by-step, and I'll explain the *why* and *how* behind every piece of code we write.
 
-Our goal is to build a modern, high-performance Next.js application that leverages Supabase for real-time tracking and a Hugging Face AI model for categorizing complaints automatically.
+Our goal is to build a modern, high-performance Next.js application that leverages Supabase for real-time tracking and the Groq AI API (Llama 3.1) for categorizing complaints automatically.
 
 Here is how we will approach this project:
 
@@ -23,7 +23,7 @@ Here, we'll focus on the student's experience.
 
 ## Phase 4: Brains of the App - AI Classification
 This is where the magic happens.
-- **Hugging Face Integration:** We will create an API route (`/api/classify`) that takes the complaint description, sends it to an open-source Hugging Face model, and receives a predicted category (e.g., "Hostel", "Technical", "Academic").
+- **Groq Integration:** We will create an API route (`/api/classify`) that takes the complaint description, sends it to a fast Llama model hosted on Groq, and receives a predicted category (e.g., "Hostel", "Technical", "Academic").
 - **Database Insertion:** We'll save the complaint, along with its AI-predicted category, into our Supabase database.
 
 ## Phase 5: Admin Panel & Real-time Magic
