@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { authService } from "@/services/authService";
-import { supabase } from "@/lib/supabaseClient";
+import { getSupabase } from "@/lib/supabaseClient";
 import {
   PlusCircle, Clock, CheckCircle2, Activity, FileText, Calendar, ArrowRight
 } from "lucide-react";
@@ -28,20 +28,21 @@ export default function StudentDashboard() {
           return;
         }
 
-        const { data: complaints } = await supabase
+        const { data: complaints } = await getSupabase()
           .from('complaints')
           .select('*')
           .eq('user_id', user.id)
           .order('created_at', { ascending: false });
 
         if (complaints) {
+          const list = complaints as any[];
           setStats({
-            total: complaints.length,
-            pending: complaints.filter(c => c.status === 'pending').length,
-            resolved: complaints.filter(c => c.status === 'resolved').length,
-            inProgress: complaints.filter(c => c.status === 'in_progress' || c.status === 'reviewing').length
+            total: list.length,
+            pending: list.filter((c: any) => c.status === 'pending').length,
+            resolved: list.filter((c: any) => c.status === 'resolved').length,
+            inProgress: list.filter((c: any) => c.status === 'in_progress' || c.status === 'reviewing').length
           });
-          setRecentComplaints(complaints.slice(0, 5));
+          setRecentComplaints(list.slice(0, 5));
         }
       }
       setLoading(false);

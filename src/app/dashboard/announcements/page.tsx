@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/Card";
-import { supabase } from "@/lib/supabaseClient";
+import { getSupabase } from "@/lib/supabaseClient";
 import { formatDate } from "@/utils/formatDate";
 import { Megaphone, Calendar, Pin } from "lucide-react";
 import { useRealtime } from "@/hooks/useRealtime";
@@ -13,14 +13,15 @@ export default function StudentAnnouncementsPage() {
 
   const loadAnnouncements = React.useCallback(async () => {
     try {
-      let { data, error } = await supabase
+      const sb = getSupabase();
+      let { data, error } = await sb
         .from('announcements')
         .select('*')
         .order('is_pinned', { ascending: false })
         .order('created_at', { ascending: false });
 
       if (error) {
-        const retry = await supabase
+        const retry = await sb
           .from('announcements')
           .select('*')
           .order('created_at', { ascending: false });

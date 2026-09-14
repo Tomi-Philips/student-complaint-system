@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { supabase } from "@/lib/supabaseClient";
+import { getSupabase } from "@/lib/supabaseClient";
 import { authService } from "@/services/authService";
 import { Toast, ToastType } from "@/components/notification/Toast";
 import { Megaphone, Trash2, Send, Calendar } from "lucide-react";
@@ -19,13 +19,14 @@ export default function AdminAnnouncementsPage() {
 
   const loadAnnouncements = async () => {
     try {
-      let { data, error } = await supabase
+      const sb = getSupabase();
+      let { data, error } = await sb
         .from('announcements')
         .select('*')
         .order('created_at', { ascending: false });
 
       if (error) {
-        const retry = await supabase
+        const retry = await sb
           .from('announcements')
           .select('*')
           .order('created_at', { ascending: false });
@@ -51,7 +52,7 @@ export default function AdminAnnouncementsPage() {
     setLoading(true);
     try {
       const user = await authService.getCurrentUser();
-      const { error } = await supabase.from('announcements').insert({
+      const { error } = await getSupabase().from('announcements').insert({
         title: formData.title,
         content: formData.content,
         user_id: user?.id
@@ -70,7 +71,7 @@ export default function AdminAnnouncementsPage() {
 
   const handleDelete = async (id: string) => {
     if (confirm("Delete this announcement?")) {
-      const { error } = await supabase.from('announcements').delete().eq('id', id);
+      const { error } = await getSupabase().from('announcements').delete().eq('id', id);
       if (!error) {
         setToast({ message: "Deleted", type: "success" });
         loadAnnouncements();

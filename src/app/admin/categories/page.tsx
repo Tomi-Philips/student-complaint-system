@@ -23,7 +23,7 @@ export default function AdminCategoriesPage() {
           others: 0,
         };
         CANDIDATE_LABELS.forEach(label => counts[label] = 0);
-        complaints.forEach(c => {
+        complaints.forEach((c: any) => {
           const cat = c.category as ComplaintCategory;
           if (counts[cat] !== undefined) counts[cat]++;
           else counts['others']++;

@@ -1,8 +1,9 @@
 import { useEffect } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { getSupabase } from "@/lib/supabaseClient";
 
 export function useRealtime(table: string, callback: () => void) {
   useEffect(() => {
+    const supabase = getSupabase();
     // 1. Set up the subscription
     const channelId = Math.random().toString(36).substring(7);
     const channel = supabase

@@ -1,8 +1,9 @@
-import { supabase } from "@/lib/supabaseClient";
+import { getSupabase } from "@/lib/supabaseClient";
 import { UserRole } from "@/types/user";
 
 export const authService = {
   async register(email: string, password: string, fullName: string, role: UserRole = 'student') {
+    const supabase = getSupabase();
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
@@ -29,6 +30,7 @@ export const authService = {
   },
 
   async login(email: string, password: string) {
+    const supabase = getSupabase();
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -39,17 +41,20 @@ export const authService = {
   },
 
   async logout() {
+    const supabase = getSupabase();
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
   },
 
   async getCurrentUser() {
+    const supabase = getSupabase();
     const { data: { user }, error } = await supabase.auth.getUser();
     if (error) return null;
     return user;
   },
 
   async getProfile(userId: string) {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('profiles')
       .select('*')

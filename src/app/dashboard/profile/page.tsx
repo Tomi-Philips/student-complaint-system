@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { authService } from "@/services/authService";
-import { supabase } from "@/lib/supabaseClient";
+import { getSupabase } from "@/lib/supabaseClient";
 import { Toast, ToastType } from "@/components/notification/Toast";
 import { User, Mail, Shield, Save, Edit2, X } from "lucide-react";
 
@@ -34,7 +34,7 @@ export default function ProfilePage() {
     e.preventDefault();
     setLoading(true);
     try {
-      const { error } = await supabase
+      const { error } = await getSupabase()
         .from('profiles')
         .update({ full_name: fullName })
         .eq('id', user.id);

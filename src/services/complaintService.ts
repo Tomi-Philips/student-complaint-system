@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabaseClient";
+import { getSupabase } from "@/lib/supabaseClient";
 import { Complaint, ComplaintStatus } from "@/types/complaint";
 import type { ComplaintCategory } from "@/lib/categories";
 
@@ -21,7 +21,7 @@ export const complaintService = {
     }
 
     // 2. Save to Database
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('complaints')
       .insert({
         user_id: userId,
@@ -38,7 +38,7 @@ export const complaintService = {
   },
 
   async getMyComplaints(userId: string) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('complaints')
       .select('*')
       .eq('user_id', userId)
@@ -48,15 +48,16 @@ export const complaintService = {
     return data as Complaint[];
   },
 
-  async getAllComplaints(supabaseClient = supabase) {
-    const { data: complaints, error } = await supabaseClient
+  async getAllComplaints(supabaseClient?: any) {
+    const client = supabaseClient || getSupabase();
+    const { data: complaints, error } = await client
       .from('complaints')
       .select('*')
       .order('created_at', { ascending: false });
 
     if (error) throw error;
 
-    const { data: profiles } = await supabaseClient
+    const { data: profiles } = await client
       .from('profiles')
       .select('id, full_name');
 
@@ -65,14 +66,14 @@ export const complaintService = {
       return acc;
     }, {});
 
-    return (complaints || []).map(c => ({
+    return (complaints || []).map((c: any) => ({
       ...c,
       profiles: { full_name: profileMap[c.user_id] || profileMap[c.student_id] || "Unknown Student" }
-    }));
+    })) as (Complaint & { profiles: { full_name: string } })[];
   },
 
   async updateComplaintStatus(id: string, status: ComplaintStatus, responseNote?: string) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('complaints')
       .update({ 
         status, 
@@ -87,8 +88,9 @@ export const complaintService = {
     return data as Complaint;
   },
 
-  async getComplaintById(id: string, supabaseClient = supabase) {
-    const { data: complaint, error: complaintError } = await supabaseClient
+  async getComplaintById(id: string, supabaseClient?: any) {
+    const client = supabaseClient || getSupabase();
+    const { data: complaint, error: complaintError } = await client
       .from('complaints')
       .select('*')
       .eq('id', id)
@@ -97,7 +99,7 @@ export const complaintService = {
     if (complaintError) throw complaintError;
 
     // Fetch profile separately
-    const { data: profile, error: profileError } = await supabaseClient
+    const { data: profile, error: profileError } = await client
       .from('profiles')
       .select('full_name')
       .eq('id', complaint.user_id || complaint.student_id)

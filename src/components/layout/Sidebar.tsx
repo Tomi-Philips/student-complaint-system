@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { getSupabase } from "@/lib/supabaseClient";
 import { useRealtime } from "@/hooks/useRealtime";
 import { authService } from "@/services/authService";
 import Link from "next/link";
@@ -43,7 +43,8 @@ export function Sidebar({ role, isMobileOpen = false, onMobileClose }: SidebarPr
     if (!user) return;
 
     try {
-      const { count: myCount } = await supabase
+      const sb = getSupabase();
+      const { count: myCount } = await sb
         .from('complaints')
         .select('*', { count: 'exact', head: true })
         .eq('user_id', user.id)
@@ -51,14 +52,14 @@ export function Sidebar({ role, isMobileOpen = false, onMobileClose }: SidebarPr
 
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-      const { count: annCount } = await supabase
+      const { count: annCount } = await sb
         .from('announcements')
         .select('*', { count: 'exact', head: true })
         .gt('created_at', sevenDaysAgo.toISOString());
 
       let allCount = 0;
       if (role === 'admin') {
-        const { count } = await supabase
+        const { count } = await sb
           .from('complaints')
           .select('*', { count: 'exact', head: true })
           .eq('status', 'pending');

@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabaseClient";
+import { getSupabase } from "@/lib/supabaseClient";
 
 export interface Notification {
   id: string;
@@ -12,6 +12,7 @@ export interface Notification {
 
 export const notificationService = {
   async getNotifications(userId: string) {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('notifications')
       .select('*')
@@ -24,6 +25,7 @@ export const notificationService = {
   },
 
   async markAsRead(notificationId: string) {
+    const supabase = getSupabase();
     const { error } = await supabase
       .from('notifications')
       .update({ read: true })
@@ -33,6 +35,7 @@ export const notificationService = {
   },
 
   async markAllAsRead(userId: string) {
+    const supabase = getSupabase();
     const { error } = await supabase
       .from('notifications')
       .update({ read: true })

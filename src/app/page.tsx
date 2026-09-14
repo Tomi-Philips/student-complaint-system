@@ -30,12 +30,10 @@ export default function LandingPage() {
       <section className="pt-24 pb-16 px-6">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-neutral-900 tracking-tight leading-tight">
-            Campus complaints,{" "}
-            <span className="text-primary-600">resolved efficiently</span>
+            Intelligent Reporting for a Smarter Campus
           </h1>
           <p className="mt-4 text-lg text-neutral-500 max-w-xl mx-auto leading-relaxed">
-            Submit issues, track progress, and get faster responses. 
-            Our system automatically routes your complaints to the right department.
+            From classroom concerns to facility issues, Resolve streamlines how you report and track campus matters.
           </p>
           <div className="mt-8 flex items-center justify-center gap-3">
             <Link href="/register">
