@@ -19,7 +19,9 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Classification failed:", error);
 
-    // Graceful fallback so submissions never hard-fail because of the AI
+    // Graceful fallback so submissions never hard-fail because of the AI.
+    // `fallback: true` tells the caller the AI did not run, so the UI can
+    // distinguish "AI chose others" from "AI unavailable".
     return NextResponse.json(
       {
         category: "others",

@@ -4,8 +4,11 @@ import type { ComplaintCategory } from "@/lib/categories";
 
 export const complaintService = {
   async createComplaint(userId: string, title: string, description: string) {
-    // 1. AI Classification (via API route — keeps the AI key server-side)
+    // 1. AI Classification (via API route — keeps the AI key server-side).
+    //    `classifiedByAI: false` means the AI could not run and the complaint
+    //    will be saved as "others" for later manual review.
     let category: ComplaintCategory = "others";
+    let classifiedByAI = false;
     try {
       const res = await fetch("/api/classify", {
         method: "POST",
@@ -15,6 +18,7 @@ export const complaintService = {
       const data = await res.json();
       if (res.ok && data?.category) {
         category = data.category as ComplaintCategory;
+        classifiedByAI = !data.fallback;
       }
     } catch (err) {
       console.warn("AI classification unavailable, defaulting to 'others':", err);
@@ -34,7 +38,7 @@ export const complaintService = {
       .single();
 
     if (error) throw error;
-    return data as Complaint;
+    return { ...data, classifiedByAI } as Complaint & { classifiedByAI: boolean };
   },
 
   async getMyComplaints(userId: string) {

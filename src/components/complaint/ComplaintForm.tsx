@@ -8,6 +8,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { complaintService } from "@/services/complaintService";
 import { authService } from "@/services/authService";
 import { Toast, ToastType } from "@/components/notification/Toast";
+import { Complaint } from "@/types/complaint";
 import { Send } from "lucide-react";
 
 export function ComplaintForm() {
@@ -35,10 +36,22 @@ export function ComplaintForm() {
         formData.description
       );
 
-      setToast({
-        message: `Complaint submitted. Category: ${complaint.category}`,
-        type: "success"
-      });
+      const { classifiedByAI, category } = complaint as Complaint & {
+        classifiedByAI?: boolean;
+      };
+
+      if (classifiedByAI === false) {
+        // AI classification failed (e.g. invalid API key) — filed as "others"
+        setToast({
+          message: "Complaint submitted, but auto-categorization is currently unavailable. It was filed under 'Others' for manual review.",
+          type: "warning"
+        });
+      } else {
+        setToast({
+          message: `Complaint submitted. Category: ${category}`,
+          type: "success"
+        });
+      }
 
       setTimeout(() => {
         router.push("/dashboard/complaints");
