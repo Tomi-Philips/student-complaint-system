@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
+import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { authService } from "@/services/authService";
@@ -55,18 +55,18 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="space-y-6 max-w-2xl">
+    <div className="space-y-6 max-w-2xl animate-fade-in">
       <div>
-        <h1 className="text-xl font-semibold text-neutral-900">Profile</h1>
-        <p className="text-sm text-neutral-500 mt-0.5">Manage your account information</p>
+        <h1 className="text-[1.35rem] font-bold text-neutral-900 tracking-[-0.02em]">Profile</h1>
+        <p className="text-[13px] text-neutral-500 mt-1">Manage your account information</p>
       </div>
 
       <Card>
         <CardContent className="p-6">
-          <div className="flex items-start gap-4 mb-6">
-            <div className="w-14 h-14 bg-neutral-200 rounded-full flex items-center justify-center flex-shrink-0">
+          <div className="flex items-start gap-5 mb-6">
+            <div className="w-16 h-16 bg-neutral-100 rounded-xl flex items-center justify-center flex-shrink-0">
               {fullName ? (
-                <span className="text-lg font-medium text-neutral-600">{getInitials(fullName)}</span>
+                <span className="text-xl font-semibold text-neutral-600 tracking-[-0.02em]">{getInitials(fullName)}</span>
               ) : (
                 <User className="w-6 h-6 text-neutral-400" />
               )}
@@ -95,14 +95,14 @@ export default function ProfilePage() {
               ) : (
                 <>
                   <div className="flex items-center gap-2">
-                    <h2 className="text-lg font-medium text-neutral-900">{fullName || "User"}</h2>
+                    <h2 className="text-lg font-semibold text-neutral-900 tracking-[-0.01em]">{fullName || "User"}</h2>
                     <Button variant="ghost" size="sm" onClick={() => setIsEditing(true)} className="gap-1">
                       <Edit2 className="w-3 h-3" />
                       Edit
                     </Button>
                   </div>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-600 flex items-center gap-1">
+                  <div className="flex items-center gap-2 mt-1.5">
+                    <span className="text-[11px] px-2 py-0.5 rounded-md bg-neutral-100 text-neutral-600 flex items-center gap-1 font-medium uppercase tracking-wider">
                       <Shield className="w-3 h-3" />
                       {profile?.role || "student"}
                     </span>
@@ -114,10 +114,10 @@ export default function ProfilePage() {
 
           <div className="space-y-3">
             <div>
-              <label className="text-xs font-medium text-neutral-500 flex items-center gap-1 mb-1">
+              <label className="text-[11px] font-medium text-neutral-400 flex items-center gap-1 mb-1.5 uppercase tracking-wide">
                 <Mail className="w-3 h-3" /> Email
               </label>
-              <div className="text-sm text-neutral-700 bg-neutral-50 px-3 py-2 rounded-lg border border-neutral-100">
+              <div className="text-[13px] text-neutral-700 bg-neutral-50/70 px-3 py-2.5 rounded-lg border border-neutral-100">
                 {user?.email}
               </div>
             </div>

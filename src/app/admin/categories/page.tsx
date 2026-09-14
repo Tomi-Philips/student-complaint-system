@@ -42,10 +42,10 @@ export default function AdminCategoriesPage() {
   const categories = Object.entries(stats).map(([name, count]) => ({ name, count }));
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-xl font-semibold text-neutral-900">Categories</h1>
-        <p className="text-sm text-neutral-500 mt-0.5">
+        <h1 className="text-[1.35rem] font-bold text-neutral-900 tracking-[-0.02em]">Categories</h1>
+        <p className="text-[13px] text-neutral-500 mt-1">
           Complaint distribution across {CANDIDATE_LABELS.length} categories ({totalComplaints} total)
         </p>
       </div>
@@ -54,18 +54,18 @@ export default function AdminCategoriesPage() {
         {categories.map(({ name, count }) => {
           const percentage = totalComplaints > 0 ? (count / totalComplaints) * 100 : 0;
           return (
-            <div key={name} className="bg-white rounded-lg border border-neutral-200 p-4">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-medium text-neutral-900 capitalize">{name.replace('_', ' ')}</h3>
-                <span className="text-lg font-bold text-neutral-900">{loading ? "—" : count}</span>
+            <div key={name} className="bg-white rounded-xl border border-neutral-200/80 p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+              <div className="flex items-center justify-between mb-3.5">
+                <h3 className="text-[14px] font-medium text-neutral-900 capitalize">{name.replace('_', ' ')}</h3>
+                <span className="text-xl font-bold text-neutral-900 tracking-[-0.02em]">{loading ? "—" : count}</span>
               </div>
               <div className="w-full bg-neutral-100 rounded-full h-1.5">
                 <div
-                  className="bg-primary-600 rounded-full h-1.5 transition-all duration-500"
+                  className="bg-neutral-900 rounded-full h-1.5 transition-all duration-500"
                   style={{ width: `${percentage}%` }}
                 />
               </div>
-              <p className="text-xs text-neutral-400 mt-1.5">{percentage.toFixed(1)}% of total</p>
+              <p className="text-[11px] text-neutral-400 mt-2 font-medium">{percentage.toFixed(1)}% of total</p>
             </div>
           );
         })}
@@ -76,7 +76,7 @@ export default function AdminCategoriesPage() {
           <CardTitle>About Classification</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-neutral-600 leading-relaxed">
+          <p className="text-[13px] text-neutral-600 leading-relaxed">
             Complaints are automatically categorized using zero-shot classification. 
             The system routes each complaint to the appropriate department based on its content.
           </p>

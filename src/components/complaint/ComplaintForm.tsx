@@ -70,9 +70,9 @@ export function ComplaintForm() {
             disabled={loading}
           />
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-neutral-700">Description</label>
+            <label className="text-[13px] font-medium text-neutral-700">Description</label>
             <textarea
-              className="flex min-h-[120px] w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm placeholder:text-neutral-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
+              className="flex min-h-[120px] w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-[13px] placeholder:text-neutral-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/20 focus-visible:border-primary-500/40 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-150 hover:border-neutral-300"
               placeholder="Provide details: what happened, where, when, and any other relevant information"
               required
               value={formData.description}

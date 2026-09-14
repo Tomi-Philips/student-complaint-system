@@ -27,25 +27,25 @@ export default function SupportPage() {
   ];
 
   return (
-    <div className="space-y-6 max-w-3xl">
+    <div className="space-y-6 max-w-3xl animate-fade-in">
       <div>
-        <h1 className="text-xl font-semibold text-neutral-900">Support</h1>
-        <p className="text-sm text-neutral-500 mt-0.5">Frequently asked questions and help resources</p>
+        <h1 className="text-[1.35rem] font-bold text-neutral-900 tracking-[-0.02em]">Support</h1>
+        <p className="text-[13px] text-neutral-500 mt-1">Frequently asked questions and help resources</p>
       </div>
 
-      <div className="space-y-2">
-        <h2 className="text-sm font-semibold text-neutral-900">FAQ</h2>
+      <div className="space-y-2.5">
+        <h2 className="text-[13px] font-semibold text-neutral-900 uppercase tracking-wide">FAQ</h2>
         {faqs.map((faq, i) => (
           <Card key={i}>
             <button
               onClick={() => setOpenFaq(openFaq === i ? null : i)}
-              className="w-full flex items-center justify-between p-4 text-left hover:bg-neutral-50 transition-colors rounded-lg"
+              className="w-full flex items-center justify-between p-4 text-left hover:bg-neutral-50/50 transition-colors rounded-xl"
             >
-              <span className="text-sm font-medium text-neutral-900">{faq.q}</span>
+              <span className="text-[14px] font-medium text-neutral-900">{faq.q}</span>
               <ChevronDown className={`w-4 h-4 text-neutral-400 transition-transform flex-shrink-0 ml-2 ${openFaq === i ? 'rotate-180' : ''}`} />
             </button>
             {openFaq === i && (
-              <div className="px-4 pb-4 text-sm text-neutral-600 leading-relaxed">
+              <div className="px-4 pb-4 text-[13px] text-neutral-600 leading-relaxed">
                 {faq.a}
               </div>
             )}
@@ -53,12 +53,12 @@ export default function SupportPage() {
         ))}
       </div>
 
-      <div className="bg-neutral-50 rounded-lg border border-neutral-200 p-4">
-        <div className="flex items-center gap-2 mb-1">
+      <div className="bg-neutral-50/70 rounded-xl border border-neutral-200/80 p-5">
+        <div className="flex items-center gap-2.5 mb-1.5">
           <HelpCircle className="w-4 h-4 text-neutral-500" />
-          <h3 className="text-sm font-medium text-neutral-900">Need more help?</h3>
+          <h3 className="text-[14px] font-medium text-neutral-900">Need more help?</h3>
         </div>
-        <p className="text-xs text-neutral-500">
+        <p className="text-[13px] text-neutral-500 leading-relaxed">
           If your question isn't covered above, contact your campus administration directly 
           or reach out through the complaint submission form.
         </p>

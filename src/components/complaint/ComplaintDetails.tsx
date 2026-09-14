@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ComplaintStatus } from "@/types/complaint";
 import { complaintService } from "@/services/complaintService";
@@ -14,6 +13,15 @@ import { Toast, ToastType } from "@/components/notification/Toast";
 interface ComplaintDetailsProps {
   complaint: any;
   isAdmin?: boolean;
+}
+
+function getStatusBg(status: string) {
+  switch (status) {
+    case 'resolved': return 'bg-emerald-50 text-emerald-700 border border-emerald-200/60';
+    case 'pending': return 'bg-amber-50 text-amber-700 border border-amber-200/60';
+    case 'in_progress': return 'bg-sky-50 text-sky-700 border border-sky-200/60';
+    default: return 'bg-neutral-50 text-neutral-600 border border-neutral-200/60';
+  }
 }
 
 export function ComplaintDetails({ complaint, isAdmin }: ComplaintDetailsProps) {
@@ -43,76 +51,78 @@ export function ComplaintDetails({ complaint, isAdmin }: ComplaintDetailsProps) 
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5 animate-fade-in">
       <button
         onClick={() => router.back()}
-        className="flex items-center gap-1.5 text-sm text-neutral-500 hover:text-neutral-700 transition-colors"
+        className="flex items-center gap-1.5 text-[13px] text-neutral-500 hover:text-neutral-900 transition-colors"
       >
         <ArrowLeft className="w-3.5 h-3.5" />
         Back
       </button>
 
-      <div className="space-y-4">
-        <Card>
-          <CardHeader className="border-b border-neutral-100">
-            <div className="flex items-start justify-between">
+      <div className="space-y-5">
+        {/* Main complaint card */}
+        <div className="bg-white rounded-xl border border-neutral-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.04)] overflow-hidden">
+          <div className="px-5 pt-5 pb-4 border-b border-neutral-100">
+            <div className="flex items-start justify-between gap-4">
               <div>
-                <Badge variant={statusVariants[complaint.status]} className="mb-2">
+                <span className={`inline-flex text-[11px] font-semibold px-2.5 py-1 rounded-md mb-3 ${getStatusBg(complaint.status)}`}>
                   {complaint.status.replace('_', ' ')}
-                </Badge>
-                <CardTitle className="text-lg">{complaint.title}</CardTitle>
+                </span>
+                <h2 className="text-lg font-semibold text-neutral-900 tracking-[-0.01em]">{complaint.title}</h2>
               </div>
             </div>
-          </CardHeader>
-          <CardContent className="pt-4">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6 text-sm">
+          </div>
+          <div className="px-5 py-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-5 mb-6">
               <div>
-                <p className="text-xs text-neutral-400 flex items-center gap-1"><User className="w-3 h-3" /> Student</p>
-                <p className="font-medium text-neutral-900 mt-0.5">{complaint.profiles?.full_name || "Unknown"}</p>
+                <p className="text-[11px] text-neutral-400 flex items-center gap-1 uppercase tracking-[0.06em] font-semibold mb-1"><User className="w-3 h-3" /> Student</p>
+                <p className="text-[13px] font-medium text-neutral-900">{complaint.profiles?.full_name || "Unknown"}</p>
               </div>
               <div>
-                <p className="text-xs text-neutral-400 flex items-center gap-1"><Tag className="w-3 h-3" /> Category</p>
-                <p className="font-medium text-neutral-900 mt-0.5 capitalize">{complaint.category}</p>
+                <p className="text-[11px] text-neutral-400 flex items-center gap-1 uppercase tracking-[0.06em] font-semibold mb-1"><Tag className="w-3 h-3" /> Category</p>
+                <p className="text-[13px] font-medium text-neutral-900 capitalize">{complaint.category}</p>
               </div>
               <div>
-                <p className="text-xs text-neutral-400 flex items-center gap-1"><Calendar className="w-3 h-3" /> Submitted</p>
-                <p className="font-medium text-neutral-900 mt-0.5">{formatDate(complaint.created_at)}</p>
+                <p className="text-[11px] text-neutral-400 flex items-center gap-1 uppercase tracking-[0.06em] font-semibold mb-1"><Calendar className="w-3 h-3" /> Submitted</p>
+                <p className="text-[13px] font-medium text-neutral-900">{formatDate(complaint.created_at)}</p>
               </div>
             </div>
 
             <div>
-              <h4 className="text-sm font-medium text-neutral-900 mb-1.5">Description</h4>
-              <p className="text-sm text-neutral-600 bg-neutral-50 p-3 rounded-lg leading-relaxed">
+              <h4 className="text-[12px] font-semibold text-neutral-500 uppercase tracking-[0.06em] mb-2">Description</h4>
+              <p className="text-[13px] text-neutral-700 bg-neutral-50/70 p-4 rounded-xl leading-relaxed border border-neutral-100">
                 {complaint.description}
               </p>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
+        {/* Response section */}
         {(complaint.response_note || isAdmin) && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-sm flex items-center gap-2">
-                <MessageCircle className="w-4 h-4 text-neutral-500" />
+          <div className="bg-white rounded-xl border border-neutral-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.04)] overflow-hidden">
+            <div className="px-5 pt-5 pb-3 border-b border-neutral-100">
+              <h3 className="text-[14px] font-semibold text-neutral-900 flex items-center gap-2">
+                <MessageCircle className="w-4 h-4 text-neutral-400" />
                 Response
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
+              </h3>
+            </div>
+            <div className="px-5 py-4">
               {isAdmin ? (
                 <textarea
-                  className="w-full min-h-[100px] rounded-lg border border-neutral-200 p-3 text-sm focus:ring-2 focus:ring-primary-500 outline-none transition-colors"
+                  className="w-full min-h-[100px] rounded-xl border border-neutral-200 p-3.5 text-[13px] focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/40 outline-none transition-all bg-white hover:border-neutral-300 resize-none"
                   placeholder="Write a response for the student..."
                   value={responseNote}
                   onChange={(e) => setResponseNote(e.target.value)}
                 />
               ) : (
-                <p className="text-sm text-neutral-600 bg-neutral-50 p-3 rounded-lg">
+                <p className="text-[13px] text-neutral-700 bg-neutral-50/70 p-4 rounded-xl border border-neutral-100 leading-relaxed">
                   {complaint.response_note || "No response yet."}
                 </p>
               )}
-            </CardContent>
+            </div>
             {isAdmin && (
-              <CardFooter className="flex gap-2 pt-0">
+              <div className="px-5 pb-5 flex gap-2">
                 <Button size="sm" className="gap-1.5" onClick={() => handleUpdateStatus('resolved')} disabled={loading}>
                   <CheckCircle2 className="w-3.5 h-3.5" /> Resolve
                 </Button>
@@ -122,9 +132,9 @@ export function ComplaintDetails({ complaint, isAdmin }: ComplaintDetailsProps) 
                 <Button size="sm" variant="danger" className="gap-1.5" onClick={() => handleUpdateStatus('rejected')} disabled={loading}>
                   <XCircle className="w-3.5 h-3.5" /> Reject
                 </Button>
-              </CardFooter>
+              </div>
             )}
-          </Card>
+          </div>
         )}
       </div>
 

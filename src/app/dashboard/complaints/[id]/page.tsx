@@ -18,12 +18,12 @@ export default async function StudentComplaintDetailPage(props: { params: Promis
     }
 
     return (
-      <div className="space-y-6">
+      <div className="space-y-6 animate-fade-in">
         <div>
-          <h1 className="text-lg font-semibold text-neutral-900">
+          <h1 className="text-lg font-semibold text-neutral-900 tracking-[-0.01em]">
             {complaint.title || "Untitled Complaint"}
           </h1>
-          <p className="text-sm text-neutral-500 mt-0.5">
+          <p className="text-[13px] text-neutral-500 mt-1">
             ID: {complaint.id.slice(0, 8)} &middot; Submitted {formatDate(complaint.created_at)}
           </p>
         </div>

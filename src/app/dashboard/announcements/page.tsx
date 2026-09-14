@@ -40,43 +40,43 @@ export default function StudentAnnouncementsPage() {
   useRealtime('announcements', loadAnnouncements);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-xl font-semibold text-neutral-900">Announcements</h1>
-        <p className="text-sm text-neutral-500 mt-0.5">Updates from campus administration</p>
+        <h1 className="text-[1.35rem] font-bold text-neutral-900 tracking-[-0.02em]">Announcements</h1>
+        <p className="text-[13px] text-neutral-500 mt-1">Updates from campus administration</p>
       </div>
 
       {loading ? (
         <div className="space-y-3">
           {[1, 2, 3].map(i => (
-            <div key={i} className="bg-white rounded-lg border border-neutral-200 p-4 animate-pulse">
-              <div className="h-4 bg-neutral-100 rounded w-3/4 mb-2" />
+            <div key={i} className="bg-white rounded-xl border border-neutral-200/80 p-5 animate-pulse">
+              <div className="h-3.5 bg-neutral-100 rounded w-3/4 mb-2.5" />
               <div className="h-3 bg-neutral-100 rounded w-1/2" />
             </div>
           ))}
         </div>
       ) : announcements.length > 0 ? (
-        <div className="space-y-3">
+        <div className="space-y-2.5">
           {announcements.map((announcement) => (
             <Card key={announcement.id}>
-              <CardContent className="p-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-neutral-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+              <CardContent className="p-5">
+                <div className="flex items-start gap-3.5">
+                  <div className="w-9 h-9 bg-neutral-50 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 border border-neutral-100">
                     {announcement.is_pinned ? (
                       <Pin className="w-4 h-4 text-amber-500" />
                     ) : (
-                      <Megaphone className="w-4 h-4 text-neutral-500" />
+                      <Megaphone className="w-4 h-4 text-neutral-400" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="text-sm font-medium text-neutral-900">{announcement.title}</h3>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <h3 className="text-[14px] font-medium text-neutral-900">{announcement.title}</h3>
                       {announcement.is_pinned && (
-                        <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-amber-50 text-amber-600">Pinned</span>
+                        <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-amber-50 text-amber-600 border border-amber-200/60">Pinned</span>
                       )}
                     </div>
-                    <p className="text-sm text-neutral-600 whitespace-pre-wrap">{announcement.content}</p>
-                    <div className="flex items-center gap-2 mt-2 text-xs text-neutral-400">
+                    <p className="text-[13px] text-neutral-600 whitespace-pre-wrap leading-relaxed">{announcement.content}</p>
+                    <div className="flex items-center gap-2 mt-3 text-[11px] text-neutral-400">
                       <Calendar className="w-3 h-3" />
                       {formatDate(announcement.created_at)}
                       {announcement.category && (
@@ -90,9 +90,9 @@ export default function StudentAnnouncementsPage() {
           ))}
         </div>
       ) : (
-        <div className="bg-white rounded-lg border border-dashed border-neutral-300 p-12 text-center">
-          <Megaphone className="w-8 h-8 text-neutral-300 mx-auto mb-2" />
-          <p className="text-sm text-neutral-500">No announcements yet. Check back later.</p>
+        <div className="bg-white rounded-xl border border-dashed border-neutral-300 p-12 text-center">
+          <Megaphone className="w-8 h-8 text-neutral-200 mx-auto mb-3" />
+          <p className="text-[14px] text-neutral-500">No announcements yet. Check back later.</p>
         </div>
       )}
     </div>

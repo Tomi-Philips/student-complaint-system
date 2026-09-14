@@ -80,10 +80,10 @@ export default function AdminAnnouncementsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-xl font-semibold text-neutral-900">Announcements</h1>
-        <p className="text-sm text-neutral-500 mt-0.5">Post updates for students</p>
+        <h1 className="text-[1.35rem] font-bold text-neutral-900 tracking-[-0.02em]">Announcements</h1>
+        <p className="text-[13px] text-neutral-500 mt-1">Post updates for students</p>
       </div>
 
       {/* Create Form */}
@@ -100,14 +100,14 @@ export default function AdminAnnouncementsPage() {
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
             />
             <textarea
-              className="flex min-h-[100px] w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm placeholder:text-neutral-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+              className="flex min-h-[100px] w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-[13px] placeholder:text-neutral-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/20 focus-visible:border-primary-500/40 transition-all hover:border-neutral-300"
               placeholder="Write your announcement..."
               required
               value={formData.content}
               onChange={(e) => setFormData({ ...formData, content: e.target.value })}
             />
           </CardContent>
-          <div className="px-6 pb-6 flex justify-end">
+          <div className="px-5 pb-5 flex justify-end">
             <Button type="submit" size="sm" disabled={loading} className="gap-1.5">
               <Send className="w-3.5 h-3.5" />
               {loading ? "Posting..." : "Post"}
@@ -118,26 +118,26 @@ export default function AdminAnnouncementsPage() {
 
       {/* Announcements List */}
       <div>
-        <h2 className="text-sm font-semibold text-neutral-900 mb-3">Published ({announcements.length})</h2>
+        <h2 className="text-[13px] font-semibold text-neutral-900 mb-3 uppercase tracking-wide">Published ({announcements.length})</h2>
         {announcements.length > 0 ? (
           <div className="space-y-2">
             {announcements.map((announcement) => (
-              <div key={announcement.id} className="bg-white rounded-lg border border-neutral-200 p-4">
-                <div className="flex items-start justify-between">
+              <div key={announcement.id} className="bg-white rounded-xl border border-neutral-200/80 p-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+                <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 mb-1">
                       <Megaphone className="w-3.5 h-3.5 text-neutral-400" />
-                      <h3 className="text-sm font-medium text-neutral-900">{announcement.title}</h3>
+                      <h3 className="text-[14px] font-medium text-neutral-900">{announcement.title}</h3>
                     </div>
-                    <p className="text-sm text-neutral-600 mt-1 whitespace-pre-wrap">{announcement.content}</p>
-                    <div className="flex items-center gap-1 text-xs text-neutral-400 mt-2">
+                    <p className="text-[13px] text-neutral-600 mt-1 whitespace-pre-wrap leading-relaxed">{announcement.content}</p>
+                    <div className="flex items-center gap-1 text-[11px] text-neutral-400 mt-2.5">
                       <Calendar className="w-3 h-3" />
                       {formatDate(announcement.created_at)}
                     </div>
                   </div>
                   <button
                     onClick={() => handleDelete(announcement.id)}
-                    className="p-1.5 text-neutral-400 hover:text-red-500 hover:bg-red-50 rounded transition-colors"
+                    className="p-1.5 text-neutral-300 hover:text-red-500 hover:bg-red-50/50 rounded-md transition-colors"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
@@ -146,7 +146,7 @@ export default function AdminAnnouncementsPage() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-8 text-sm text-neutral-500">No announcements yet</div>
+          <div className="text-center py-8 text-[13px] text-neutral-500">No announcements yet</div>
         )}
       </div>
 
