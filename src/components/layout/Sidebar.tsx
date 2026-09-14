@@ -16,6 +16,7 @@ import {
   ShieldCheck,
   Megaphone,
   UserCircle,
+  Users,
   Layers,
   ChevronLeft,
   Menu,
@@ -94,6 +95,7 @@ export function Sidebar({ role, isMobileOpen = false, onMobileClose }: SidebarPr
   const adminLinks = [
     { name: "Overview", href: "/admin", icon: ShieldCheck, badge: null },
     { name: "All Complaints", href: "/admin/complaints", icon: ClipboardList, badge: counts.allComplaints > 0 ? counts.allComplaints.toString() : null },
+    { name: "Users", href: "/admin/users", icon: Users, badge: null },
     { name: "Categories", href: "/admin/categories", icon: Layers, badge: null },
     { name: "Announcements", href: "/admin/announcements", icon: Megaphone, badge: null },
   ];

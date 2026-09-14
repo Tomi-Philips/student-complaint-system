@@ -63,5 +63,40 @@ export const authService = {
 
     if (error) return null;
     return data;
+  },
+
+  async getAllUsers() {
+    const supabase = getSupabase();
+    const { data: profiles, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    // Fetch complaint counts per user
+    const { data: complaintRows } = await supabase
+      .from('complaints')
+      .select('user_id');
+
+    const complaintCounts: Record<string, number> = {};
+    (complaintRows || []).forEach((c: any) => {
+      complaintCounts[c.user_id] = (complaintCounts[c.user_id] || 0) + 1;
+    });
+
+    return (profiles || []).map((p: any) => ({
+      ...p,
+      complaintCount: complaintCounts[p.id] || 0,
+    }));
+  },
+
+  async updateUserRole(userId: string, newRole: string) {
+    const supabase = getSupabase();
+    const { error } = await supabase
+      .from('profiles')
+      .update({ role: newRole })
+      .eq('id', userId);
+
+    if (error) throw error;
   }
 };
